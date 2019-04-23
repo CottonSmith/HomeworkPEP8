@@ -1,23 +1,19 @@
 import email
 import smtplib
 import imaplib
-from email.MIMEText import MIMEText
-from email.MIMEMultipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 GMAIL_SMTP = 'smtp.gmail.com'
 GMAIL_IMAP = 'imap.gmail.com'
 
+
 class EmailUser:
-    def __init__(self,
-                 login='login@gmail.com',
-                 password='qwerty'):
+    def __init__(self, login, password):
         self.login = login
         self.password = password
 
-    def send_message(self,
-                     recipients=['vasya@email.com', 'petya@email.com'],
-                     message_text='Message',
-                     subject='Subject'):
+    def send_message(self, recipients, message_text, subject):
         message = MIMEMultipart()
         message['From'] = self.login
         message['To'] = ', '.join(recipients)
@@ -31,7 +27,7 @@ class EmailUser:
         myself.sendmail(self.login, myself, message.as_string())
         myself.quit()
 
-    def recieve_message(self, header = None):
+    def recieve_message(self, header):
         mail = imaplib.IMAP4_SSL(GMAIL_IMAP)
         mail.login(self.login, self.password)
         mail.list()
@@ -49,4 +45,5 @@ class EmailUser:
         mail.logout()
 
 
-if ne
+if __name__ == '__main__':
+    some_user = EmailUser('login@gmail.com', 'qwerty')
